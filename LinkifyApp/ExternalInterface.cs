@@ -22,13 +22,15 @@ namespace LinkifyApp
     }
     class ExteranlInterface
     {
+        public CurrentSong storedSong = new CurrentSong("https://open.spotify.com/track/4CJ7iadNL15GuTr7fXMqxr");
+
+
         public string url = "http://127.0.0.1:8000";
         static HttpClient client = new HttpClient();
 
-        public async Task<String> PostCurrentSong(string uri)
+        public async Task PostCurrentSong()
         {
-            Debug.WriteLine("Hello???");
-            var stringPayload = JsonConvert.SerializeObject(new CurrentSong(uri));
+            var stringPayload = JsonConvert.SerializeObject(storedSong);
             var httpPayload = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(url + "/check-songs", httpPayload);
             response.EnsureSuccessStatusCode();
@@ -36,11 +38,9 @@ namespace LinkifyApp
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 CurrentSong newSong = JsonConvert.DeserializeObject<CurrentSong>(responseContent);
-                Debug.WriteLine(newSong.current);
-                return newSong.current;
+                storedSong = newSong;
 
             }
-            return "";
         }
 
     }

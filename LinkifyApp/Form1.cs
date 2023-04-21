@@ -15,6 +15,24 @@ namespace LinkifyApp
     {
         static ExteranlInterface repo = new ExteranlInterface();
 
+        bool timerStarted = false;
+        private Timer timer;
+        DateTime end;
+
+        public void InitCheckerTimer()
+        {
+            timer = new Timer();
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Interval = 10000;
+            end = DateTime.Now.AddMilliseconds(10000);
+
+        }
+
+        public async void timer_Tick(object sender, EventArgs e)
+        {
+            await repo.PostCurrentSong();
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -22,14 +40,21 @@ namespace LinkifyApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            InitCheckerTimer();
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            string newSong = await repo.PostCurrentSong("https://open.spotify.com/track/4CJ7iadNL15GuTr7fXMqxr");
-            label1.Text = newSong;
-            Debug.Write(newSong);
+            if (timer.Enabled)
+            {
+                timer.Stop();
+                timerlabel.Text = "Stopped!";
+            }
+            else
+            {
+                timer.Start();
+                timerlabel.Text = "Started!";
+            }
         }
 
     }
