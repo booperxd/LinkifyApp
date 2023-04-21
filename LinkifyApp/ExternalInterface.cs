@@ -11,6 +11,10 @@ namespace LinkifyApp
 {
     class CurrentSong { 
         public string current { get; set; }
+        public CurrentSong()
+        {
+
+        }
         public CurrentSong(string current)
         {
             this.current = current;
@@ -26,13 +30,13 @@ namespace LinkifyApp
             Debug.WriteLine("Hello???");
             var stringPayload = JsonConvert.SerializeObject(new CurrentSong(uri));
             var httpPayload = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-            Debug.Write(httpPayload);
             var response = await client.PostAsync(url + "/check-songs", httpPayload);
             response.EnsureSuccessStatusCode();
             if (response.Content != null)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 CurrentSong newSong = JsonConvert.DeserializeObject<CurrentSong>(responseContent);
+                Debug.WriteLine(newSong.current);
                 return newSong.current;
 
             }
