@@ -31,7 +31,19 @@ namespace LinkifyApp
 
         public async void timer_Tick(object sender, EventArgs e)
         {
-            await repo.PostCurrentSong();
+            try
+            {
+                await repo.PostCurrentSong();
+
+            } catch (Exception exception)
+            {
+                if (exception is System.Net.Http.HttpRequestException)
+                {
+                    ouput_label.Text = "User is not listening to music.";
+                    //timer.Stop();
+                    //start_timer.Text = "Start";
+                }
+            }
         }
 
         public Form1()
@@ -71,7 +83,12 @@ namespace LinkifyApp
             {
                 SongPairing pairing = await repo.PostSongPairing(key, value);
                 await repo.UpdateUserPairings(pairing.id);
+                songkey_box.Text = String.Empty;
+                songvalue_box.Text = String.Empty;
+                songpairing_output.Text = "Success! Song pairing was uploaded and paired with your account.";
+
             }
+            songpairing_output.Text = "Something went wrong. Make sure the song URI link looks like this:\nhttps://open.spotify.com/track/4CJ7iadNL15GuTr7fXMqxr";
         }
 
         private void control_panel_Paint(object sender, PaintEventArgs e)
