@@ -13,9 +13,10 @@ namespace LinkifyApp
 {
     public partial class Form1 : Form
     {
-        static ExteranlInterface repo = new ExteranlInterface();
+        static ExternalInterface repo = new ExternalInterface();
 
-        bool timerStarted = false;
+        bool loginStatus = false;
+
         private Timer timer;
         DateTime end;
 
@@ -43,19 +44,53 @@ namespace LinkifyApp
             InitCheckerTimer();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void login_panel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private async void login_button_Click(object sender, EventArgs e)
+        {
+            loginStatus = await repo.Login();
+            if (loginStatus)
+            {
+                logged_in_as.Text = repo.curUser.username;
+                songpairing_panel.Visible = true;
+                songpairing_panel.Enabled = true;
+                control_panel.Visible = true;
+                control_panel.Enabled = true;
+            }
+        }
+
+        private async void submit_songpairing_Click(object sender, EventArgs e)
+        {
+            string key = songkey_box.Text;
+            string value = songvalue_box.Text;
+
+            if (key.Contains("open.spotify.com/track") && value.Contains("open.spotify.com/track") && !key.Contains('?') && !value.Contains('?'))
+            {
+                SongPairing pairing = await repo.PostSongPairing(key, value);
+                await repo.UpdateUserPairings(pairing.id);
+            }
+        }
+
+        private void control_panel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void start_timer_Click(object sender, EventArgs e)
         {
             if (timer.Enabled)
             {
                 timer.Stop();
-                timerlabel.Text = "Stopped!";
+                start_timer.Text = "Start";
             }
             else
             {
                 timer.Start();
-                timerlabel.Text = "Started!";
+                start_timer.Text = "Stop";
             }
         }
-
     }
 }
