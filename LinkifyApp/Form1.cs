@@ -71,6 +71,7 @@ namespace LinkifyApp
                 songpairing_panel.Enabled = true;
                 control_panel.Visible = true;
                 control_panel.Enabled = true;
+                UpdateSongpairingsBox();
             }
         }
 
@@ -86,9 +87,14 @@ namespace LinkifyApp
                 songkey_box.Text = String.Empty;
                 songvalue_box.Text = String.Empty;
                 songpairing_output.Text = "Success! Song pairing was uploaded and paired with your account.";
+                //Todo: make this so it doesnt have to ping the server to update the box
+                UpdateSongpairingsBox();
 
             }
-            songpairing_output.Text = "Something went wrong. Make sure the song URI link looks like this:\nhttps://open.spotify.com/track/4CJ7iadNL15GuTr7fXMqxr";
+            else
+            {
+                songpairing_output.Text = "Something went wrong. Make sure the song URI link looks like this:\nhttps://open.spotify.com/track/4CJ7iadNL15GuTr7fXMqxr";
+            }
         }
 
         private void control_panel_Paint(object sender, PaintEventArgs e)
@@ -109,5 +115,20 @@ namespace LinkifyApp
                 start_timer.Text = "Stop";
             }
         }
+
+        //This is hideous.
+        private async void UpdateSongpairingsBox()
+        {
+            songpairings_box.Text = String.Empty;
+            List<SongPairing> pairings = await repo.GetSongPairings(repo.curUser.id);
+            foreach (SongPairing p in pairings)
+            {
+                songpairings_box.AppendText(p.song_key + " -> " + p.song_value);
+                songpairings_box.AppendText(Environment.NewLine);
+
+
+            }
+        }
+
     }
 }

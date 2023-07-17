@@ -46,6 +46,7 @@ namespace LinkifyApp
             song_value = value;
             this.owner = owner;
         }
+
     }
     class ExternalInterface
     {
@@ -71,6 +72,19 @@ namespace LinkifyApp
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<SongPairing>> GetSongPairings(String ownerId)
+        {
+            var response = await client.GetAsync(url + "/song-pairings?owner=" + ownerId);
+            response.EnsureSuccessStatusCode();
+            if (response.Content != null)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                dynamic songPairings = JsonConvert.DeserializeObject<List<SongPairing>>(responseContent);
+                return songPairings;
+            }
+            return null;
         }
 
         public async Task<SongPairing> PostSongPairing(String songkey, String songvalue)

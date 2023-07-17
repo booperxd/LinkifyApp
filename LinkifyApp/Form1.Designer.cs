@@ -38,10 +38,11 @@
             this.songvalue_box = new System.Windows.Forms.TextBox();
             this.songkey_box = new System.Windows.Forms.TextBox();
             this.control_panel = new System.Windows.Forms.Panel();
+            this.songpairings_box = new System.Windows.Forms.TextBox();
+            this.search_box = new System.Windows.Forms.TextBox();
             this.ouput_label = new System.Windows.Forms.Label();
             this.info_label = new System.Windows.Forms.Label();
             this.start_timer = new System.Windows.Forms.Button();
-            this.todolabel = new System.Windows.Forms.Label();
             this.login_panel.SuspendLayout();
             this.songpairing_panel.SuspendLayout();
             this.control_panel.SuspendLayout();
@@ -137,7 +138,8 @@
             // 
             // control_panel
             // 
-            this.control_panel.Controls.Add(this.todolabel);
+            this.control_panel.Controls.Add(this.songpairings_box);
+            this.control_panel.Controls.Add(this.search_box);
             this.control_panel.Controls.Add(this.ouput_label);
             this.control_panel.Controls.Add(this.info_label);
             this.control_panel.Controls.Add(this.start_timer);
@@ -148,6 +150,26 @@
             this.control_panel.TabIndex = 2;
             this.control_panel.Visible = false;
             this.control_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.control_panel_Paint);
+            // 
+            // songpairings_box
+            // 
+            this.songpairings_box.Location = new System.Drawing.Point(25, 68);
+            this.songpairings_box.MaximumSize = new System.Drawing.Size(383, 175);
+            this.songpairings_box.MinimumSize = new System.Drawing.Size(383, 175);
+            this.songpairings_box.Multiline = true;
+            this.songpairings_box.Name = "songpairings_box";
+            this.songpairings_box.ReadOnly = true;
+            this.songpairings_box.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.songpairings_box.Size = new System.Drawing.Size(383, 175);
+            this.songpairings_box.TabIndex = 5;
+            this.songpairings_box.WordWrap = false;
+            // 
+            // search_box
+            // 
+            this.search_box.Location = new System.Drawing.Point(25, 19);
+            this.search_box.Name = "search_box";
+            this.search_box.Size = new System.Drawing.Size(330, 23);
+            this.search_box.TabIndex = 4;
             // 
             // ouput_label
             // 
@@ -176,17 +198,6 @@
             this.start_timer.Text = "Start";
             this.start_timer.UseVisualStyleBackColor = true;
             this.start_timer.Click += new System.EventHandler(this.start_timer_Click);
-            // 
-            // todolabel
-            // 
-            this.todolabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.todolabel.Location = new System.Drawing.Point(0, 0);
-            this.todolabel.Name = "todolabel";
-            this.todolabel.Size = new System.Drawing.Size(441, 83);
-            this.todolabel.TabIndex = 3;
-            this.todolabel.Text = "Song pairing window will go here All song pairings are permanent until this is ad" +
-    "ded teehee";
-            this.todolabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -224,7 +235,8 @@
         private System.Windows.Forms.Button start_timer;
         private System.Windows.Forms.Label ouput_label;
         private System.Windows.Forms.Label songpairing_output;
-        private System.Windows.Forms.Label todolabel;
+        private System.Windows.Forms.TextBox search_box;
+        private System.Windows.Forms.TextBox songpairings_box;
     }
 }
 
